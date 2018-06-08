@@ -1,0 +1,135 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  annotations:
+    helm.sh/namespace: demo
+    helm.sh/path: pgcluster
+    helm.sh/release: app-525858282
+  creationTimestamp: 2018-06-07T06:40:36Z
+  generation: 4
+  labels:
+    controller.caicloud.io/chart: pgcluster
+    controller.caicloud.io/release: app-525858282
+  name: app-525858282-pgcluster-v1-0
+  namespace: demo
+  ownerReferences:
+  - apiVersion: release.caicloud.io/v1alpha1
+    kind: Release
+    name: app-525858282
+    uid: af5cf0f2-6a1d-11e8-85c9-005056b756f1
+  resourceVersion: "1916797"
+  selfLink: /apis/apps/v1/namespaces/demo/statefulsets/app-525858282-pgcluster-v1-0
+  uid: af67e808-6a1d-11e8-85c9-005056b756f1
+spec:
+  podManagementPolicy: OrderedReady
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      controller.caicloud.io/chart: pgcluster
+      controller.caicloud.io/name: app-525858282-pgcluster-v1-0
+      controller.caicloud.io/release: app-525858282
+  serviceName: app-525858282-pgcluster-v1-0
+  template:
+    metadata:
+      annotations:
+        helm.sh/namespace: demo
+        helm.sh/path: pgcluster
+        helm.sh/release: app-525858282
+      creationTimestamp: null
+      labels:
+        controller.caicloud.io/chart: pgcluster
+        controller.caicloud.io/name: app-525858282-pgcluster-v1-0
+        controller.caicloud.io/release: app-525858282
+    spec:
+      containers:
+      - env:
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.podIP
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: PG_PRIMARY_USER
+          value: primaryuser
+        - name: PGHOST
+          value: /tmp
+        - name: PG_MODE
+          value: set
+        - name: PG_PRIMARY_HOST
+          value: statefulset-primary
+        - name: PG_REPLICA_HOST
+          value: statefulset-replica
+        - name: PG_PRIMARY_PORT
+          value: "5432"
+        - name: PG_PRIMARY_PASSWORD
+          value: kong
+        - name: PG_USER
+          value: kong
+        - name: PG_PASSWORD
+          value: kong
+        - name: PG_DATABASE
+          value: kong
+        - name: PG_ROOT_PASSWORD
+          value: kong
+        image: cargo.caicloudprivatetest.com/library/crunchy-postgres:centos7-10.3-1.8.2-fix
+        imagePullPolicy: Always
+        name: c0
+        ports:
+        - containerPort: 5432
+          name: http-5432
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 500m
+            memory: 512Mi
+        securityContext:
+          privileged: false
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /pgdata
+          name: volume-0
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+  updateStrategy:
+    type: RollingUpdate
+  volumeClaimTemplates:
+  - metadata:
+      creationTimestamp: null
+      labels:
+        controller.caicloud.io/chart: pgcluster
+        controller.caicloud.io/name: app-525858282-pgcluster-v1-0
+        controller.caicloud.io/release: app-525858282
+      name: volume-0
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        limits:
+          storage: 2Gi
+        requests:
+          storage: 2Gi
+      storageClassName: heketi-storageclass
+    status:
+      phase: Pending

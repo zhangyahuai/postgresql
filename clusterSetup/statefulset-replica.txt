@@ -1,0 +1,36 @@
+statefulset-replica.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    helm.sh/namespace: demo
+    helm.sh/path: pgcluster
+    helm.sh/release: app-525858282
+  creationTimestamp: 2018-06-07T06:40:36Z
+  labels:
+    controller.caicloud.io/chart: pgcluster
+    controller.caicloud.io/release: app-525858282
+    service.caicloud.io/export: ""
+  name: statefulset-replica
+  namespace: demo
+  ownerReferences:
+  - apiVersion: release.caicloud.io/v1alpha1
+    kind: Release
+    name: app-525858282
+    uid: af5cf0f2-6a1d-11e8-85c9-005056b756f1
+  resourceVersion: "1915559"
+  selfLink: /api/v1/namespaces/demo/services/statefulset-replica
+  uid: af64f3ce-6a1d-11e8-85c9-005056b756f1
+spec:
+  clusterIP: 10.254.218.186
+  ports:
+  - name: http-5432
+    port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    controller.caicloud.io/name: app-525858282-pgcluster-v1-0
+    name: statefulset-replica
+  sessionAffinity: None
+  type: ClusterIP
